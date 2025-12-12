@@ -16,8 +16,12 @@ interface SimulationInputs {
   chargingPower: number;
 }
 
+const timeIntervalOptions = ["day", "week", "month", "year"] as const;
+type TimeInterval = (typeof timeIntervalOptions)[number];
+
 function App() {
   const [open, setOpen] = useState(false);
+  const [timeInverval, setTimeInterval] = useState<TimeInterval>("day");
   const [inputs, setInputs] = useState<SimulationInputs>({
     numChargePoints: 20,
     arrivalMultiplier: 100,
@@ -25,9 +29,14 @@ function App() {
     chargingPower: 11,
   });
 
-  const handleSubmit = (inputs: any) => {
-    console.log("Form submitted:", inputs);
+  const handleSubmit = (parameters: any) => {
+    console.log("Form submitted:", parameters);
+    setInputs(inputs);
     setOpen(false);
+  };
+
+  const handleToggle = (value: TimeInterval) => {
+    setTimeInterval(value);
   };
 
   return (
@@ -36,17 +45,19 @@ function App() {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
           <h1 className="text-2xl font-bold mb-4 md:mb-0">Analytics</h1>
 
-          {/* Toggle */}
           <div className="flex space-x-2">
-            <button className="px-4 py-2 rounded-md bg-white border border-gray-300 text-gray-700 hover:bg-gray-100 font-medium">
-              Year
-            </button>
-            <button className="px-4 py-2 rounded-md bg-white border border-gray-300 text-gray-700 hover:bg-gray-100 font-medium">
-              Month
-            </button>
-            <button className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 font-medium">
-              Week
-            </button>
+            {timeIntervalOptions.map((option) => (
+              <button
+                className={`px-4 py-2 rounded-md ${
+                  timeInverval == option
+                    ? `bg-blue-600 text-white hover:bg-blue-700`
+                    : `bg-white border border-gray-300 text-gray-700 hover:bg-gray-100`
+                }  font-medium`}
+                onClick={() => handleToggle(option)}
+              >
+                {option}
+              </button>
+            ))}
           </div>
         </div>
 

@@ -9,8 +9,6 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-import type { SimulationInputs } from "../../App";
-import type { TimeInterval } from "../../App";
 import type { SimulationChartProps } from "./PowerChart";
 
 import {
@@ -49,8 +47,8 @@ const EnergyChart: React.FC<SimulationChartProps> = ({
   const chartData = dataByInterval[timeInterval]; // pick data depending on interval
 
   return (
-    <div className="w-full h-100">
-      <ResponsiveContainer height={400} width="100%">
+    <div className="w-full">
+      <ResponsiveContainer height={300} width="100%">
         <BarChart
           accessibilityLayer
           barCategoryGap="10%"

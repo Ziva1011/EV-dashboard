@@ -56,7 +56,7 @@ const SimulationChart: React.FC<SimulationChartProps> = ({
   const chartData = dataByInterval[timeInterval]; // pick data depending on interval
 
   return (
-    <div className="w-full h-100">
+    <div className="w-full">
       <ResponsiveContainer width="100%" height={300}>
         <LineChart
           data={chartData}

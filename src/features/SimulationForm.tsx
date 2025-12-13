@@ -91,8 +91,14 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
           );
         })}
 
-        <div className="flex flex-row">
-          <Button onClick={onClose}>Close</Button>
+        <div className="flex justify-end space-x-4">
+          <button
+            type="button"
+            onClick={onClose}
+            className="text-gray-500 underline hover:text-gray-700 hover:cursor-pointer focus:outline-none focus:ring-2 focus:ring-gray-300"
+          >
+            Cancel
+          </button>
           <Button type="submit">Submit</Button>
         </div>
       </form>

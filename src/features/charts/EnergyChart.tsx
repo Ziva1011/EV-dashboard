@@ -9,7 +9,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-import type { SimulationChartProps } from "./PowerChart";
+import type { PowerChartProps } from "./PowerChart";
 
 import {
   mockHourlyCars,
@@ -18,7 +18,7 @@ import {
   mockYearlyCars,
 } from "../../../data/mockData";
 
-const EnergyChart: React.FC<SimulationChartProps> = ({
+const EnergyChart: React.FC<PowerChartProps> = ({
   simulationInputs,
   timeInterval,
 }) => {

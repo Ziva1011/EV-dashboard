@@ -2,7 +2,7 @@ import React from "react";
 import type { Props } from "recharts/types/container/Surface";
 import { useState } from "react";
 import Button from "../components/Button";
-import type { SimulationInputs } from "../App";
+import type { SimulationInputs } from "./Dashboard";
 
 interface SimulationFormProps {
   onSubmit: (inputs: SimulationInputs) => void;
@@ -92,14 +92,12 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
         })}
 
         <div className="flex justify-end space-x-4">
-          <button
-            type="button"
-            onClick={onClose}
-            className="text-gray-500 underline hover:text-gray-700 hover:cursor-pointer focus:outline-none focus:ring-2 focus:ring-gray-300"
-          >
+          <Button variant="secondary" type="button" onClick={onClose}>
             Cancel
-          </button>
-          <Button type="submit">Submit</Button>
+          </Button>
+          <Button variant="primary" type="submit">
+            Submit
+          </Button>
         </div>
       </form>
     </>

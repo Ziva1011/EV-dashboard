@@ -10,8 +10,8 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-import type { SimulationInputs } from "../../App";
-import type { TimeInterval } from "../../App";
+import type { SimulationInputs } from "../Dashboard";
+import type { TimeInterval } from "../Dashboard";
 
 import {
   mockHourlyCars,
@@ -20,12 +20,12 @@ import {
   mockYearlyCars,
 } from "../../../data/mockData";
 
-export interface SimulationChartProps {
+export interface PowerChartProps {
   simulationInputs: SimulationInputs;
   timeInterval: TimeInterval;
 }
 
-const SimulationChart: React.FC<SimulationChartProps> = ({
+const PowerChart: React.FC<PowerChartProps> = ({
   simulationInputs,
   timeInterval,
 }) => {
@@ -92,4 +92,4 @@ const SimulationChart: React.FC<SimulationChartProps> = ({
   );
 };
 
-export default SimulationChart;
+export default PowerChart;

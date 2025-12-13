@@ -1,20 +1,25 @@
 import React from "react";
 
+type ButtonVariant = "primary" | "secondary";
+
+const buttonClasses: Record<ButtonVariant, string> = {
+  primary: "bg-violet-500 hover:bg-violet-700 text-white",
+  secondary: "text-gray-500 underline hover:text-gray-700",
+};
+
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  color?: string;
   isLoading?: boolean;
+  variant?: ButtonVariant;
 }
 
 const Button: React.FC<ButtonProps> = ({
   children,
-  color = "violet",
-  type = "submit",
+  variant = "primary",
   ...rest
 }) => {
   return (
     <button
-      type={type}
-      className={`bg-violet-500 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded`}
+      className={`${buttonClasses[variant]} font-bold py-2 px-4 rounded hover:cursor-pointer`}
       {...rest}
     >
       {children}

@@ -53,7 +53,7 @@ const PowerChart: React.FC<PowerChartProps> = ({
     })),
   };
 
-  const chartData = dataByInterval[timeInterval]; // pick data depending on interval
+  const chartData = dataByInterval[timeInterval]; // picks dataset depending on interval
 
   return (
     <div className="w-full">
@@ -77,7 +77,7 @@ const PowerChart: React.FC<PowerChartProps> = ({
             />
           </XAxis>
           <YAxis>
-            <Label value="kW" position="insideLeft" offset={-20} />
+            <Label value="kW" angle={-90} position="insideLeft" offset={-10} />
           </YAxis>
           <Tooltip />
           <Line

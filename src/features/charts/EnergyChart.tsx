@@ -3,6 +3,7 @@ import {
   BarChart,
   XAxis,
   YAxis,
+  Label,
   Tooltip,
   Bar,
   CartesianGrid,
@@ -44,7 +45,7 @@ const EnergyChart: React.FC<PowerChartProps> = ({
     })),
   };
 
-  const chartData = dataByInterval[timeInterval]; // pick data depending on interval
+  const chartData = dataByInterval[timeInterval]; // picks dataset depending on interval
 
   return (
     <div className="w-full">
@@ -69,7 +70,9 @@ const EnergyChart: React.FC<PowerChartProps> = ({
             strokeDasharray="3 3"
           />
           <XAxis dataKey="label" />
-          <YAxis width="auto" />
+          <YAxis width="auto">
+            <Label value="kWh" angle={-90} position="insideLeft" />
+          </YAxis>
           <Tooltip />
           <Bar dataKey="value" fill="#8884d8" isAnimationActive={true} />
         </BarChart>

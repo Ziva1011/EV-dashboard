@@ -1,13 +1,11 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import Button from "../components/Button";
-import Card from "../components/Card";
 import SimulationForm from ".//SimulationForm";
 import Modal from "../components/Modal";
 import SimulationChart from "./charts/PowerChart";
 import EnergyChart from "./charts/EnergyChart";
 import EventsChart from "./charts/EventsChart";
+import OverviewChart from "./charts/OverviewChart";
 
 export interface SimulationInputs {
   numChargePoints: number;
@@ -130,6 +128,13 @@ function Dashboard() {
                   timeInterval={timeInterval}
                 />
               </div>
+            </div>
+            <div className="bg-white rounded-xl shadow p-6">
+              <h2 className="text-lg font-semibold mb-4">Power per day</h2>
+              <OverviewChart
+                simulationInputs={inputs}
+                timeInterval={timeInterval}
+              />
             </div>
           </div>
         </div>

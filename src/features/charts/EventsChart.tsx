@@ -3,13 +3,14 @@ import {
   BarChart,
   XAxis,
   YAxis,
+  Label,
   Tooltip,
   Bar,
   CartesianGrid,
   ResponsiveContainer,
 } from "recharts";
 
-import type { SimulationChartProps } from "./PowerChart";
+import type { PowerChartProps } from "./PowerChart";
 
 import {
   mockHourlyCars,
@@ -18,7 +19,7 @@ import {
   mockYearlyCars,
 } from "../../../data/mockData";
 
-const EventsChart: React.FC<SimulationChartProps> = ({
+const EventsChart: React.FC<PowerChartProps> = ({
   simulationInputs,
   timeInterval,
 }) => {
@@ -44,7 +45,7 @@ const EventsChart: React.FC<SimulationChartProps> = ({
     })),
   };
 
-  const chartData = dataByInterval[timeInterval]; // pick data depending on interval
+  const chartData = dataByInterval[timeInterval]; // picks dataset depending on interval
 
   return (
     <div className="w-full">
@@ -69,9 +70,11 @@ const EventsChart: React.FC<SimulationChartProps> = ({
             strokeDasharray="3 3"
           />
           <XAxis dataKey="label" />
-          <YAxis scale="linear" />
+          <YAxis scale="linear">
+            <Label value="Number of cars" angle={-90} position="insideLeft" />
+          </YAxis>
           <Tooltip />
-          <Bar dataKey="value" fill="#8884d8" isAnimationActive={true} />
+          <Bar dataKey="value" fill="#4f46bb" isAnimationActive={true} />
         </BarChart>
       </ResponsiveContainer>
     </div>

@@ -42,17 +42,17 @@ function Dashboard() {
 
   return (
     <>
-      <div className="mt-3">
-        <div className="flex flex-col mb-5 md:flex-row justify-between items-start md:items-center ">
-          <div className="text-left ">
-            <h1 className="text-2xl font-bold mb-4 md:mb-0">Analytics</h1>
+      <div className="mt-3 space-y-4 md:space-y-7">
+        <div className="flex flex-col space-y-6 md:flex-row justify-between items-start md:items-center ">
+          <div className="text-left space-y-2 md:space-y-4">
+            <h1 className="text-2xl font-bold ">EV Charging Analytics</h1>
             <p className="text-sm text-gray-500 font-light ">
               Anaylize your energy consumption
             </p>
           </div>
 
           {/* Time toogle */}
-          <div className="flex space-x-2">
+          <div className="flex space-x-2 self-center">
             {timeIntervalOptions.map((option, key) => (
               <button
                 className={`px-6 py-2 text-sm font-light rounded-md ${
@@ -67,43 +67,72 @@ function Dashboard() {
             ))}
           </div>
         </div>
+        <div className="flex flex-col space-y-10 md:flex-row md:gap-x-10">
+          <aside className="w-full shrink-0 md:w-64 md:order-1">
+            <div className="bg-white rounded-xl shadow p-6 space-y-4 md:space-y-8">
+              <h3 className="text-md font-semibold text-left">
+                Active Simulation Settings
+              </h3>
+              <ul className="text-sm space-y-2 text-gray-700 text-left md:space-y-5">
+                <li>
+                  Charge Points:{" "}
+                  <span className="font-medium">{inputs.numChargePoints}</span>
+                </li>
+                <li>
+                  Arrival Rate:{" "}
+                  <span className="font-medium">
+                    {inputs.arrivalMultiplier}%
+                  </span>
+                </li>
+                <li>
+                  Car Consumption:{" "}
+                  <span className="font-medium">
+                    {inputs.carConsumption} kWh
+                  </span>
+                </li>
+                <li>
+                  Charging Power:{" "}
+                  <span className="font-medium">{inputs.chargingPower} kW</span>
+                </li>
+              </ul>
+              <div className="">
+                <Button onClick={() => setOpen(true)}>
+                  Edit Simulation Parameters
+                </Button>
+              </div>
+            </div>
+          </aside>
+          <div className="flex-1 space-y-5 md:order-0">
+            <div className="bg-white rounded-xl shadow p-6">
+              <h2 className="text-lg font-semibold mb-4">Power per day</h2>
+              <SimulationChart
+                simulationInputs={inputs}
+                timeInterval={timeInterval}
+              />
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <div className="bg-white rounded-xl shadow p-6 h-auto">
+                <h2 className="text-lg font-semibold mb-4">
+                  Energy consumption per {timeInterval}
+                </h2>
+                <EnergyChart
+                  simulationInputs={inputs}
+                  timeInterval={timeInterval}
+                />
+              </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Card title="Total Energy Charged" value={30}>
-            kWh
-          </Card>
-          <Card title="Total Number of Charging Events" value={40}>
-            per year
-          </Card>
-
-          <Card title="Third" value={40}></Card>
-          <div className="flex justify-center items-center border border-transparent rounded-md  p-4">
-            <Button onClick={() => setOpen(true)}>Open Simulation Form</Button>
+              <div className="bg-white rounded-xl shadow p-6 h-auto">
+                <h2 className="text-lg font-semibold mb-4">
+                  Events per {timeInterval}
+                </h2>
+                <EventsChart
+                  simulationInputs={inputs}
+                  timeInterval={timeInterval}
+                />
+              </div>
+            </div>
           </div>
         </div>
-
-        <div className="bg-white rounded-xl shadow p-6">
-          <h2 className="text-lg font-semibold mb-4">Power per day</h2>
-          <SimulationChart
-            simulationInputs={inputs}
-            timeInterval={timeInterval}
-          />
-        </div>
-
-        <div className="bg-white rounded-xl shadow p-6">
-          <h2 className="text-lg font-semibold mb-4">
-            Energy consumption per {timeInterval}
-          </h2>
-          <EnergyChart simulationInputs={inputs} timeInterval={timeInterval} />
-        </div>
-
-        <div className="bg-white rounded-xl shadow p-6">
-          <h2 className="text-lg font-semibold mb-4">
-            Events per {timeInterval}
-          </h2>
-          <EventsChart simulationInputs={inputs} timeInterval={timeInterval} />
-        </div>
-        {/* <Charts2 simulationInputs={inputs} timeInterval={timeInterval} /> */}
       </div>
 
       <Modal isOpen={open} onClose={() => setOpen(false)}>

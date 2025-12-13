@@ -61,18 +61,18 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="max-w-sm mx-auto">
+      <form onSubmit={handleSubmit} className="max-w-md mx-auto px-4">
         {inputFields.map((input) => {
           const value = inputs[input.id as keyof SimulationInputs];
           return (
-            <div className="mb-5 relative">
+            <div className="mb-5 relative text-left">
               <label
                 htmlFor={input.id}
-                className="block mb-2.5 text-sm font-medium text-heading "
+                className="block mb-2 text-sm font-medium text-heading "
               >
                 {input.label}
               </label>
-              <div className="flex items-center rounded-base bg-neutral-secondary-medium border border-default-medium px-3 py-2.5 shadow-xs focus-within:ring-2 focus-within:ring-brand focus-within:border-brand">
+              <div className="flex items-center rounded-base bg-neutral-secondary-medium border rounded-sm border-slate-400 px-3 py-2.5 shadow-xs focus-within:ring-1 focus-within:ring-brand focus-within:border-brand ">
                 <input
                   type="number"
                   id={input.id}
@@ -91,7 +91,7 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
           );
         })}
 
-        <div className="flex justify-end space-x-4">
+        <div className="flex justify-end space-x-4 mt-3">
           <Button variant="secondary" type="button" onClick={onClose}>
             Cancel
           </Button>

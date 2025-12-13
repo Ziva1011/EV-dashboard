@@ -15,7 +15,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
       onClick={onClose} // closes when clicking the backdrop
     >
       <div
-        className="bg-white rounded-xl shadow-lg p-6 w-full max-w-lg"
+        className="bg-white rounded-xl shadow-lg p-6 w-fit max-w-lg"
         onClick={(e) => e.stopPropagation()}
       >
         {children}

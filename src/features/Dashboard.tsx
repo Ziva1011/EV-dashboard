@@ -51,7 +51,7 @@ function Dashboard() {
           </div>
 
           {/* Time toogle */}
-          <div className="flex space-x-2 self-center">
+          <div className="grid grid-cols-2 gap-x-3 gap-y-1 w-full md:w-auto md:flex md:space-x-2 self-center">
             {timeIntervalOptions.map((option, key) => (
               <button
                 key={key}
@@ -81,7 +81,14 @@ function Dashboard() {
           </aside>
           <div className="flex-1 space-y-5 md:order-0">
             <Card>
-              <h2 className="text-lg font-semibold mb-4">Power per day</h2>
+              <div className="text-left mb-5">
+                <h2 className="text-lg font-semibold text-left">
+                  Site power profile by hour
+                </h2>
+                <p className="mt-1 text-xs text-slate-500">
+                  Total charging power today (kW)
+                </p>
+              </div>
               <SimulationChart
                 simulationInputs={inputs}
                 timeInterval={timeInterval}
@@ -89,18 +96,28 @@ function Dashboard() {
             </Card>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               <Card>
-                <h2 className="text-lg font-semibold mb-4">
-                  Energy consumption per {timeInterval}
-                </h2>
+                <div className="text-left mb-5">
+                  <h2 className="text-lg font-semibold text-left">
+                    Energy consumption per {timeInterval}
+                  </h2>
+                  <p className="mt-1 text-xs text-slate-500">
+                    Energy charged in each {timeInterval} (kWh)
+                  </p>
+                </div>
                 <EnergyChart
                   simulationInputs={inputs}
                   timeInterval={timeInterval}
                 />
               </Card>
               <Card>
-                <h2 className="text-lg font-semibold mb-4">
-                  Events per {timeInterval}
-                </h2>
+                <div className="text-left mb-5">
+                  <h2 className="text-lg font-semibold text-left">
+                    Charging session per {timeInterval}
+                  </h2>
+                  <p className="mt-1 text-xs text-slate-500">
+                    Number of sessions in each {timeInterval}
+                  </p>
+                </div>
                 <EventsChart
                   simulationInputs={inputs}
                   timeInterval={timeInterval}
@@ -108,7 +125,14 @@ function Dashboard() {
               </Card>
             </div>
             <div className="bg-white rounded-xl shadow p-6">
-              <h2 className="text-lg font-semibold mb-4">Power per day</h2>
+              <div className="text-left mb-5">
+                <h2 className="text-lg font-semibold text-left">
+                  Peak power vs sessions per {timeInterval}
+                </h2>
+                <p className="mt-1 text-xs text-slate-500">
+                  Max demand (kW) and events per {timeInterval}
+                </p>
+              </div>
               <OverviewChart
                 simulationInputs={inputs}
                 timeInterval={timeInterval}

@@ -6,6 +6,7 @@ import SimulationChart from "./charts/PowerChart";
 import EnergyChart from "./charts/EnergyChart";
 import EventsChart from "./charts/EventsChart";
 import OverviewChart from "./charts/OverviewChart";
+import Card from "../components/Card";
 
 export interface SimulationInputs {
   numChargePoints: number;
@@ -53,6 +54,7 @@ function Dashboard() {
           <div className="flex space-x-2 self-center">
             {timeIntervalOptions.map((option, key) => (
               <button
+                key={key}
                 className={`px-6 py-2 text-sm font-light rounded-md ${
                   timeInterval == option
                     ? `border-2 border-violet-600/50 text-violet-600 bg-violet-100 hover:bg-violet-200`
@@ -67,49 +69,26 @@ function Dashboard() {
         </div>
         <div className="flex flex-col space-y-10 md:flex-row md:gap-x-10">
           <aside className="w-full shrink-0 md:w-64 md:order-1">
-            <div className="bg-white rounded-xl shadow p-6 space-y-4 md:space-y-8">
-              <h3 className="text-md font-semibold text-left">
-                Active Simulation Settings
-              </h3>
-              <ul className="text-sm space-y-2 text-gray-700 text-left md:space-y-5">
-                <li>
-                  Charge Points:{" "}
-                  <span className="font-medium">{inputs.numChargePoints}</span>
-                </li>
-                <li>
-                  Arrival Rate:{" "}
-                  <span className="font-medium">
-                    {inputs.arrivalMultiplier}%
-                  </span>
-                </li>
-                <li>
-                  Car Consumption:{" "}
-                  <span className="font-medium">
-                    {inputs.carConsumption} kWh
-                  </span>
-                </li>
-                <li>
-                  Charging Power:{" "}
-                  <span className="font-medium">{inputs.chargingPower} kW</span>
-                </li>
-              </ul>
-              <div className="">
-                <Button onClick={() => setOpen(true)}>
-                  Edit Simulation Parameters
-                </Button>
+            <Card>
+              <div className="space-y-4 md:space-y-8">
+                <SimulationForm
+                  onSubmit={handleSubmit}
+                  onClose={() => setOpen(false)}
+                  simulationInputs={inputs}
+                />
               </div>
-            </div>
+            </Card>
           </aside>
           <div className="flex-1 space-y-5 md:order-0">
-            <div className="bg-white rounded-xl shadow p-6">
+            <Card>
               <h2 className="text-lg font-semibold mb-4">Power per day</h2>
               <SimulationChart
                 simulationInputs={inputs}
                 timeInterval={timeInterval}
               />
-            </div>
+            </Card>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              <div className="bg-white rounded-xl shadow p-6 h-auto">
+              <Card>
                 <h2 className="text-lg font-semibold mb-4">
                   Energy consumption per {timeInterval}
                 </h2>
@@ -117,9 +96,8 @@ function Dashboard() {
                   simulationInputs={inputs}
                   timeInterval={timeInterval}
                 />
-              </div>
-
-              <div className="bg-white rounded-xl shadow p-6 h-auto">
+              </Card>
+              <Card>
                 <h2 className="text-lg font-semibold mb-4">
                   Events per {timeInterval}
                 </h2>
@@ -127,7 +105,7 @@ function Dashboard() {
                   simulationInputs={inputs}
                   timeInterval={timeInterval}
                 />
-              </div>
+              </Card>
             </div>
             <div className="bg-white rounded-xl shadow p-6">
               <h2 className="text-lg font-semibold mb-4">Power per day</h2>

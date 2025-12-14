@@ -3,7 +3,7 @@ import React from "react";
 type ButtonVariant = "primary" | "secondary";
 
 const buttonClasses: Record<ButtonVariant, string> = {
-  primary: "bg-violet-500 hover:bg-violet-700 text-white",
+  primary: "bg-violet-500 hover:bg-violet-700 text-white w-full",
   secondary: "text-gray-500 underline hover:text-gray-700",
 };
 

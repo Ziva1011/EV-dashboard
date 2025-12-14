@@ -1,5 +1,4 @@
 import React from "react";
-import type { Props } from "recharts/types/container/Surface";
 import { useState } from "react";
 import Button from "../components/Button";
 import type { SimulationInputs } from "./Dashboard";
@@ -24,7 +23,7 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
-    setInputs({ ...inputs, [id]: value });
+    setInputs({ ...inputs, [id]: Number(value) });
   };
 
   const handleBlur = (e: React.ChangeEvent<HTMLInputElement>) => {

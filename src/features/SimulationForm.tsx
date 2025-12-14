@@ -107,9 +107,7 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
 
   return (
     <>
-      <h3 className="text-md font-semibold text-left">
-        Active Simulation Settings
-      </h3>
+      <h3 className="text-md font-semibold text-left">Simulation Parameters</h3>
       <form onSubmit={handleSubmit} className="max-w-md mx-auto" noValidate>
         {inputFields.map((field) => {
           const value = inputs[field.id];
@@ -119,7 +117,7 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
             <div key={field.id} className="mb-5 text-left">
               <label
                 htmlFor={field.id}
-                className="block mb-2 text-sm font-medium text-heading"
+                className="block mb-1 text-sm text-heading"
               >
                 {field.label}
               </label>
@@ -156,7 +154,7 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
 
         <div className="flex justify-end space-x-4 mt-3">
           <Button variant="primary" type="submit">
-            Submit
+            Save
           </Button>
         </div>
       </form>

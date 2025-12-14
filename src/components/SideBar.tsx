@@ -8,8 +8,8 @@ const SideBar: React.FC<{}> = ({}) => {
 
   return (
     <aside
-      className={`sticky top-0 md:h-screen md:shrink-0 border-r border-slate-200 md:bg-white
-        ${sidebarCollapsed ? "w-8 md:w-14" : "w-52 border-slate-200 bg-white"}`}
+      className={`sticky top-0 md:h-screen md:shrink-0 border-r bg-white border-slate-200 md:bg-white
+        ${sidebarCollapsed ? "w-8 md:w-14" : "w-52 border-slate-200 "}`}
       aria-label="Main navigation"
     >
       <div className={`flex flex-col`}>

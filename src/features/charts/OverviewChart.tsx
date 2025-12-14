@@ -19,6 +19,7 @@ import {
   mockMonthlyCars,
   mockYearlyCars,
 } from "../../../data/mockData";
+import { DATE_APPENDIX } from "../../utils/date";
 
 const OverviewChart: React.FC<PowerChartProps> = ({
   simulationInputs,
@@ -38,7 +39,7 @@ const OverviewChart: React.FC<PowerChartProps> = ({
     const effectiveCars = (numCars * arrivalMultiplier) / 100;
 
     return {
-      label: `${hour + 1}`,
+      label: DATE_APPENDIX[timeInterval] + `${hour + 1}`,
       energyKWh: effectiveCars * carConsumption,
       events: effectiveCars,
       maxPowerKW: effectiveCars * chargingPower,

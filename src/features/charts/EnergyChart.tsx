@@ -10,7 +10,7 @@ import {
 } from "recharts";
 
 import type { PowerChartProps } from "./PowerChart";
-
+import { MONTH_LABELS, DATE_APPENDIX } from "../../utils/date";
 import {
   mockHourlyCars,
   mockWeeklyCars,
@@ -22,24 +22,23 @@ const EnergyChart: React.FC<PowerChartProps> = ({
   simulationInputs,
   timeInterval,
 }) => {
-  const { numChargePoints, arrivalMultiplier, carConsumption, chargingPower } =
-    { ...simulationInputs };
+  const { arrivalMultiplier, carConsumption } = { ...simulationInputs };
 
   const dataByInterval = {
     Day: mockHourlyCars.map((numCars, hour) => ({
-      label: `${hour}h`,
+      label: `${hour + DATE_APPENDIX["Day"]}`,
       value: (numCars * carConsumption * arrivalMultiplier) / 100,
     })),
     Week: mockWeeklyCars.map((numCars, day) => ({
-      label: `Day ${day + 1}`,
+      label: DATE_APPENDIX["Week"] + `${day + 1}`,
       value: (numCars * carConsumption * arrivalMultiplier) / 100,
     })),
     Month: mockMonthlyCars.map((numCars, week) => ({
-      label: `Week ${week + 1}`,
+      label: DATE_APPENDIX["Month"] + `${week + 1}`,
       value: (numCars * carConsumption * arrivalMultiplier) / 100,
     })),
     Year: mockYearlyCars.map((numCars, month) => ({
-      label: `Month ${month + 1}`,
+      label: MONTH_LABELS[month],
       value: (numCars * carConsumption * arrivalMultiplier) / 100,
     })),
   };

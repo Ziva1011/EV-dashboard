@@ -53,7 +53,7 @@ const EventsChart: React.FC<PowerChartProps> = ({
         <BarChart
           accessibilityLayer
           barCategoryGap="10%"
-          barGap={4}
+          barSize={20}
           data={chartData}
           margin={{
             bottom: 0,
@@ -70,11 +70,9 @@ const EventsChart: React.FC<PowerChartProps> = ({
             strokeDasharray="3 3"
           />
           <XAxis dataKey="label" />
-          <YAxis scale="linear">
-            <Label value="Number of cars" angle={-90} position="insideLeft" />
-          </YAxis>
+          <YAxis scale="linear"></YAxis>
           <Tooltip />
-          <Bar dataKey="value" fill="#4f46bb" isAnimationActive={true} />
+          <Bar dataKey="value" fill="#FFC6AC" isAnimationActive={true} />
         </BarChart>
       </ResponsiveContainer>
     </div>

@@ -4,6 +4,7 @@ import {
   XAxis,
   YAxis,
   Label,
+  Line,
   Tooltip,
   Bar,
   CartesianGrid,
@@ -34,31 +35,34 @@ const OverviewChart: React.FC<PowerChartProps> = ({
   };
 
   const chartData = Datasets[timeInterval].map((numCars, hour) => {
-    const effectiveCars = Math.min(
-      (numCars * arrivalMultiplier) / 100,
-      numChargePoints
-    );
+    const effectiveCars = (numCars * arrivalMultiplier) / 100;
 
     return {
-      label: `${hour}`,
+      label: `${hour + 1}`,
+      energyKWh: effectiveCars * carConsumption,
       events: effectiveCars,
       maxPowerKW: effectiveCars * chargingPower,
-      energyKWh: effectiveCars * carConsumption,
     };
   });
 
   return (
     <div className="w-full">
       <ResponsiveContainer height={300} width="100%">
-        <BarChart data={chartData}>
+        <BarChart data={chartData} barSize={20}>
           <CartesianGrid strokeDasharray="3 3" vertical={false} />
           <XAxis dataKey="label" />
           <YAxis />
           <Tooltip />
 
-          <Bar dataKey="events" name="Charging events" fill="#8b5cf6" />
-          <Bar dataKey="maxPowerKW" name="Max power (kW)" fill="#3b82f6" />
-          <Bar dataKey="energyKWh" name="Energy (kWh)" fill="#10b981" />
+          <Bar dataKey="energyKWh" name="Energy (kWh)" fill="#8B5CF6" />
+          <Bar dataKey="events" name="Charging events" fill="#FFC6AC" />
+          <Line
+            dataKey="maxPowerKW"
+            name="Max power (kW)"
+            fill="#C4A29E"
+            strokeWidth={2.5}
+            dot={false}
+          />
         </BarChart>
       </ResponsiveContainer>
     </div>

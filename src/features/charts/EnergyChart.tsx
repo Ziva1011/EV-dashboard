@@ -3,7 +3,6 @@ import {
   BarChart,
   XAxis,
   YAxis,
-  Label,
   Tooltip,
   Bar,
   CartesianGrid,
@@ -53,7 +52,7 @@ const EnergyChart: React.FC<PowerChartProps> = ({
         <BarChart
           accessibilityLayer
           barCategoryGap="10%"
-          barGap={4}
+          barSize={20}
           data={chartData}
           margin={{
             bottom: 0,
@@ -70,9 +69,7 @@ const EnergyChart: React.FC<PowerChartProps> = ({
             strokeDasharray="3 3"
           />
           <XAxis dataKey="label" />
-          <YAxis width="auto">
-            <Label value="kWh" angle={-90} position="insideLeft" />
-          </YAxis>
+          <YAxis width="auto"></YAxis>
           <Tooltip />
           <Bar dataKey="value" fill="#8884d8" isAnimationActive={true} />
         </BarChart>

@@ -70,7 +70,7 @@ function Dashboard() {
         <div className="flex flex-col space-y-10 md:flex-row md:gap-x-10">
           <aside className="w-full shrink-0 md:w-64 md:order-1">
             <Card>
-              <div className="space-y-4 md:space-y-8">
+              <div className="space-y-4 ">
                 <SimulationForm
                   onSubmit={handleSubmit}
                   onClose={() => setOpen(false)}
@@ -98,10 +98,10 @@ function Dashboard() {
               <Card>
                 <div className="text-left mb-5">
                   <h2 className="text-lg font-semibold text-left">
-                    Energy consumption per {timeInterval}
+                    Energy consumption during {timeInterval}
                   </h2>
                   <p className="mt-1 text-xs text-slate-500">
-                    Energy charged in each {timeInterval} (kWh)
+                    Energy charged during {timeInterval} (kWh)
                   </p>
                 </div>
                 <EnergyChart
@@ -112,10 +112,10 @@ function Dashboard() {
               <Card>
                 <div className="text-left mb-5">
                   <h2 className="text-lg font-semibold text-left">
-                    Charging session per {timeInterval}
+                    Charging sessions during {timeInterval}
                   </h2>
                   <p className="mt-1 text-xs text-slate-500">
-                    Number of sessions in each {timeInterval}
+                    Number of sessions during {timeInterval}
                   </p>
                 </div>
                 <EventsChart
@@ -127,10 +127,10 @@ function Dashboard() {
             <div className="bg-white rounded-xl shadow p-6">
               <div className="text-left mb-5">
                 <h2 className="text-lg font-semibold text-left">
-                  Peak power vs sessions per {timeInterval}
+                  Peak power vs sessions during {timeInterval}
                 </h2>
                 <p className="mt-1 text-xs text-slate-500">
-                  Max demand (kW) and events per {timeInterval}
+                  Max demand (kW) and events during {timeInterval}
                 </p>
               </div>
               <OverviewChart

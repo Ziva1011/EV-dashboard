@@ -60,7 +60,12 @@ const PowerChart: React.FC<PowerChartProps> = ({
       <ResponsiveContainer width="100%" height={300}>
         <LineChart
           data={chartData}
-          margin={{ top: 20, right: 20, bottom: 50, left: 40 }}
+          margin={{
+            bottom: 0,
+            left: 0,
+            right: 0,
+            top: 0,
+          }}
         >
           <CartesianGrid
             horizontal={true}
@@ -69,22 +74,14 @@ const PowerChart: React.FC<PowerChartProps> = ({
             strokeDasharray="3 3"
           />
 
-          <XAxis dataKey="label">
-            <Label
-              value="Hour of the Day"
-              position="insideBottom"
-              offset={-20}
-            />
-          </XAxis>
-          <YAxis>
-            <Label value="kW" angle={-90} position="insideLeft" offset={-10} />
-          </YAxis>
+          <XAxis dataKey="label"></XAxis>
+          <YAxis></YAxis>
           <Tooltip />
           <Line
             type="monotone"
             dataKey="value"
-            stroke="black"
-            strokeWidth={3}
+            stroke="#8B5CF6"
+            strokeWidth={2.5}
           />
         </LineChart>
       </ResponsiveContainer>

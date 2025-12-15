@@ -163,16 +163,16 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
           );
         })}
 
-        {onSuccess && (
-          <div className="bg-green-200/90 text-green-700 rounded-sm shadow-sm">
-            <p className="text-sm">Changes were saved successfully</p>
-          </div>
-        )}
         <div className="flex justify-end space-x-4 mt-3">
           <Button variant="primary" type="submit">
             Save
           </Button>
         </div>
+        {onSuccess && (
+          <div className="bg-green-200/90 text-green-700 rounded-sm shadow-sm mt-3">
+            <p className="text-sm">Changes were saved successfully</p>
+          </div>
+        )}
       </form>
     </>
   );

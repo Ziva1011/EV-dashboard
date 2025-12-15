@@ -223,7 +223,8 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
                       <input
                         type="number"
                         min={0}
-                        value={charge.power}
+                        placeholder="0"
+                        //value={charge.power}
                         className="flex-1 min-w-0 border-0 p-0 text-sm focus:ring-0 outline-none"
                       />
                       <span className="ml-2 text-xs text-slate-500">kW</span>
@@ -238,7 +239,9 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
                       <input
                         type="number"
                         min={0}
-                        value={charge.amount}
+                        max={20}
+                        placeholder="0"
+                        //value={charge.amount}
                         className="flex-1 min-w-0  border-0 p-0 text-sm focus:ring-0 outline-none"
                       />
                     </div>

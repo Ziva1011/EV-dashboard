@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Button from "../components/Button";
 import type { SimulationInputs } from "./Dashboard";
+import { useEffect } from "react";
 
 interface SimulationFormProps {
   onSubmit: (inputs: SimulationInputs) => void;
@@ -25,6 +26,7 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
 }) => {
   const [inputs, setInputs] = useState<SimulationInputs>(simulationInputs);
   const [errors, setErrors] = useState<Errors>({});
+  const [onSuccess, setOnSuccess] = useState<boolean>(true);
 
   const inputFields: InputField[] = [
     {
@@ -100,9 +102,17 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
 
     // Prevent submit if any error
     if (Object.values(newErrors).some(Boolean)) return;
-
+    setOnSuccess(true);
     onSubmit(inputs);
   };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setOnSuccess(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [onSuccess]);
 
   return (
     <>
@@ -151,6 +161,11 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
           );
         })}
 
+        {onSuccess && (
+          <div className="bg-green-200/90 text-green-700 rounded-sm shadow-sm">
+            <p className="text-sm">Changes were saved successfully</p>
+          </div>
+        )}
         <div className="flex justify-end space-x-4 mt-3">
           <Button variant="primary" type="submit">
             Save

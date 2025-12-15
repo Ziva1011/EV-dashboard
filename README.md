@@ -13,7 +13,7 @@ The project is built with **React**, **TypeScript**, **Tailwind CSS**, and **Rec
 2. Open the directory
 
 ```bash
-cd ev-charging-dashboard
+cd EV-dashboard
 ```
 
 3. Install dependencies

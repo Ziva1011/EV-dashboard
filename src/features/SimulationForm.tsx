@@ -26,7 +26,7 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
 }) => {
   const [inputs, setInputs] = useState<SimulationInputs>(simulationInputs);
   const [errors, setErrors] = useState<Errors>({});
-  const [onSuccess, setOnSuccess] = useState<boolean>(true);
+  const [onSuccess, setOnSuccess] = useState<boolean>(false);
 
   const inputFields: InputField[] = [
     {

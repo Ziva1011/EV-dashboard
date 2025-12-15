@@ -3,15 +3,12 @@ import {
   BarChart,
   XAxis,
   YAxis,
-  Label,
   Line,
   Tooltip,
   Bar,
   CartesianGrid,
   ResponsiveContainer,
 } from "recharts";
-
-import type { PowerChartProps } from "./PowerChart";
 
 import {
   mockHourlyCars,
@@ -21,12 +18,15 @@ import {
 } from "../../../data/mockData";
 import { DATE_APPENDIX } from "../../utils/date";
 
+import type { PowerChartProps } from "./PowerChart";
+
 const OverviewChart: React.FC<PowerChartProps> = ({
   simulationInputs,
   timeInterval,
 }) => {
-  const { numChargePoints, arrivalMultiplier, carConsumption, chargingPower } =
-    { ...simulationInputs };
+  const { arrivalMultiplier, carConsumption, chargingPower } = {
+    ...simulationInputs,
+  };
 
   const Datasets = {
     Day: mockHourlyCars,

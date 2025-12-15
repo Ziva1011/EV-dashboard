@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 
-const SideBar: React.FC<{}> = ({}) => {
+const SideBar: React.FC = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
 
   const toggleSidebar = () => setSidebarCollapsed((prev) => !prev);

@@ -54,8 +54,8 @@ const PowerChart: React.FC<PowerChartProps> = ({
     })),
   };
 
-  const chartData = dataByInterval[timeInterval]; // picks dataset depending on interval
-
+  // Selects dataset depending on time interval
+  const chartData = dataByInterval[timeInterval];
   return (
     <div className="w-full">
       <ResponsiveContainer width="100%" height={300}>

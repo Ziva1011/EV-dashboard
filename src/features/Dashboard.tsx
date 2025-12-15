@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Button from "../components/Button";
 import SimulationForm from ".//SimulationForm";
 import Modal from "../components/Modal";
 import SimulationChart from "./charts/PowerChart";
@@ -28,15 +27,15 @@ function Dashboard() {
     chargingPower: 11,
   });
 
-  const handleSubmit = (parameters: any) => {
-    console.log("Form submitted:", parameters);
+  //Set state with form inputs
+  const handleSubmit = (parameters: SimulationInputs) => {
     setInputs(parameters);
     setOpen(false);
   };
 
+  //Time Interval Toggle
   const handleToggle = (value: TimeInterval) => {
     setTimeInterval(value);
-    console.log(inputs);
   };
 
   return (
@@ -73,12 +72,12 @@ function Dashboard() {
               <div className="space-y-4 ">
                 <SimulationForm
                   onSubmit={handleSubmit}
-                  onClose={() => setOpen(false)}
                   simulationInputs={inputs}
                 />
               </div>
             </Card>
           </aside>
+          {/* Charts */}
           <div className="flex-1 space-y-5 md:order-0">
             <Card>
               <div className="text-left mb-5">
@@ -142,6 +141,7 @@ function Dashboard() {
         </div>
       </div>
 
+      {/* Modal - not used at the moment*/}
       <Modal isOpen={open} onClose={() => setOpen(false)}>
         <h2 className="text-xl font-semibold mb-4">Simulation Settings</h2>
 

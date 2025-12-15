@@ -4,7 +4,7 @@ import type { SimulationInputs } from "./Dashboard";
 
 interface SimulationFormProps {
   onSubmit: (inputs: SimulationInputs) => void;
-  onClose: () => void;
+  onClose?: () => void;
   simulationInputs: SimulationInputs;
 }
 
@@ -21,7 +21,6 @@ type Errors = Partial<Record<keyof SimulationInputs, boolean>>;
 
 const SimulationForm: React.FC<SimulationFormProps> = ({
   onSubmit,
-  onClose,
   simulationInputs,
 }) => {
   const [inputs, setInputs] = useState<SimulationInputs>(simulationInputs);

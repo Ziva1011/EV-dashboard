@@ -3,7 +3,6 @@ import {
   BarChart,
   XAxis,
   YAxis,
-  Label,
   Tooltip,
   Bar,
   CartesianGrid,
@@ -45,7 +44,8 @@ const EventsChart: React.FC<PowerChartProps> = ({
     })),
   };
 
-  const chartData = dataByInterval[timeInterval]; // picks dataset depending on interval
+  // Selects dataset depending on time interval
+  const chartData = dataByInterval[timeInterval];
 
   return (
     <div className="w-full">

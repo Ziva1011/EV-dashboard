@@ -11,7 +11,7 @@ import {
 
 import type { SimulationInputs } from "../Dashboard";
 import type { TimeInterval } from "../Dashboard";
-import { MONTH_LABELS, DATE_APPENDIX } from "../../utils/date";
+import { MONTH_LABELS, INTERVAL_UNIT } from "../../utils/date";
 
 import {
   mockHourlyCars,
@@ -35,17 +35,17 @@ const PowerChart: React.FC<PowerChartProps> = ({
 
   const dataByInterval = {
     Day: mockHourlyCars.map((numCars, hour) => ({
-      label: `${hour + DATE_APPENDIX["Day"]}`,
+      label: `${hour + INTERVAL_UNIT["Day"]}`,
       value:
         Math.min((numCars * arrivalMultiplier) / 100, numChargePoints) *
         chargingPower,
     })),
     Week: mockWeeklyCars.map((numCars, day) => ({
-      label: DATE_APPENDIX["Week"] + `${day + 1}`,
+      label: INTERVAL_UNIT["Week"] + `${day + 1}`,
       value: (numCars * chargingPower * arrivalMultiplier) / 100,
     })),
     Month: mockMonthlyCars.map((numCars, week) => ({
-      label: DATE_APPENDIX["Month"] + `${week + 1}`,
+      label: INTERVAL_UNIT["Month"] + `${week + 1}`,
       value: (numCars * chargingPower * arrivalMultiplier) / 100,
     })),
     Year: mockYearlyCars.map((numCars, month) => ({

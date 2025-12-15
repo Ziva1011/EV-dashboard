@@ -16,7 +16,7 @@ import {
   mockMonthlyCars,
   mockYearlyCars,
 } from "../../../data/mockData";
-import { DATE_APPENDIX } from "../../utils/date";
+import { INTERVAL_UNIT } from "../../utils/date";
 
 import type { PowerChartProps } from "./PowerChart";
 
@@ -35,11 +35,14 @@ const OverviewChart: React.FC<PowerChartProps> = ({
     Year: mockYearlyCars,
   };
 
-  const chartData = Datasets[timeInterval].map((numCars, hour) => {
+  const chartData = Datasets[timeInterval].map((numCars, timeUnit) => {
     const effectiveCars = (numCars * arrivalMultiplier) / 100;
 
     return {
-      label: DATE_APPENDIX[timeInterval] + `${hour + 1}`,
+      label:
+        timeInterval == "Day"
+          ? `${timeUnit}` + INTERVAL_UNIT[timeInterval]
+          : INTERVAL_UNIT[timeInterval] + `${timeUnit + 1}`,
       energyKWh: effectiveCars * carConsumption,
       events: effectiveCars,
       maxPowerKW: effectiveCars * chargingPower,

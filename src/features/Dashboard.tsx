@@ -6,6 +6,7 @@ import EnergyChart from "./charts/EnergyChart";
 import EventsChart from "./charts/EventsChart";
 import OverviewChart from "./charts/OverviewChart";
 import Card from "../components/Card";
+import { TIME_UNIT_TO_FREQUENCY, INTERVAL_UNIT } from "../utils/date";
 
 export interface SimulationInputs {
   numChargePoints: number;
@@ -82,10 +83,12 @@ function Dashboard() {
             <Card>
               <div className="text-left mb-5">
                 <h2 className="text-lg font-semibold text-left">
-                  Site power profile by hour
+                  Site Power Profile
                 </h2>
                 <p className="mt-1 text-xs text-slate-500">
-                  Total charging power today (kW)
+                  {TIME_UNIT_TO_FREQUENCY[timeInterval]} total charging power
+                  per {INTERVAL_UNIT[timeInterval]}
+                  (kW)
                 </p>
               </div>
               <SimulationChart
@@ -97,10 +100,11 @@ function Dashboard() {
               <Card>
                 <div className="text-left mb-5">
                   <h2 className="text-lg font-semibold text-left">
-                    Energy consumption during {timeInterval}
+                    Energy Consumption
                   </h2>
                   <p className="mt-1 text-xs text-slate-500">
-                    Energy charged during {timeInterval} (kWh)
+                    {TIME_UNIT_TO_FREQUENCY[timeInterval]} energy charged per{" "}
+                    {INTERVAL_UNIT[timeInterval]} (kWh)
                   </p>
                 </div>
                 <EnergyChart
@@ -111,10 +115,11 @@ function Dashboard() {
               <Card>
                 <div className="text-left mb-5">
                   <h2 className="text-lg font-semibold text-left">
-                    Charging sessions during {timeInterval}
+                    {TIME_UNIT_TO_FREQUENCY[timeInterval]} Charging Sessions
                   </h2>
                   <p className="mt-1 text-xs text-slate-500">
-                    Number of sessions during {timeInterval}
+                    {TIME_UNIT_TO_FREQUENCY[timeInterval]} number of sessions
+                    per {INTERVAL_UNIT[timeInterval]}
                   </p>
                 </div>
                 <EventsChart
@@ -126,10 +131,11 @@ function Dashboard() {
             <div className="bg-white rounded-xl shadow p-6">
               <div className="text-left mb-5">
                 <h2 className="text-lg font-semibold text-left">
-                  Peak power vs sessions during {timeInterval}
+                  Peak Power vs Session Number
                 </h2>
                 <p className="mt-1 text-xs text-slate-500">
-                  Max demand (kW) and events during {timeInterval}
+                  {TIME_UNIT_TO_FREQUENCY[timeInterval]} max demand (kW) and
+                  events per {INTERVAL_UNIT[timeInterval]}
                 </p>
               </div>
               <OverviewChart

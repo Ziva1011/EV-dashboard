@@ -13,9 +13,16 @@ export const MONTH_LABELS = [
   "Dec",
 ];
 
-export const DATE_APPENDIX = {
-  Day: "",
+export const INTERVAL_UNIT = {
+  Day: "h",
   Week: "Day ",
   Month: "Day ",
   Year: "Month ",
+};
+
+export const TIME_UNIT_TO_FREQUENCY = {
+  Day: "Daily",
+  Week: "Weekly ",
+  Month: "Monthly ",
+  Year: "Yearly ",
 };

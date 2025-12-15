@@ -16,6 +16,6 @@ export const MONTH_LABELS = [
 export const DATE_APPENDIX = {
   Day: "",
   Week: "Day ",
-  Month: "Week ",
+  Month: "Day ",
   Year: "Month ",
 };

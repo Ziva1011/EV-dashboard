@@ -49,14 +49,16 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
       label: "Average Car Consumption",
       suffix: "kWh",
       min: 0,
-      errorMessage: "Car consumption must be >= 0.",
+      max: 1000,
+      errorMessage: "Car consumption must be positive and 1000kWh or less",
     },
     {
       id: "chargingPower",
       label: "Charging Power per Chargepoint",
       suffix: "kW",
       min: 0,
-      errorMessage: "Charging power must be >= 0.",
+      max: 2000,
+      errorMessage: "Charging power must be positive and 2000 kW or less.",
     },
   ];
 

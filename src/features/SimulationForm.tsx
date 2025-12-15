@@ -114,6 +114,7 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
 
     // Prevent submit if any error
     if (Object.values(newErrors).some(Boolean)) return;
+
     setOnSuccess(true);
     onSubmit(inputs);
   };
@@ -190,13 +191,13 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
           </button>
         </div>
         {!useCustomCharge && (
-          <div className="mb-5 text-left space-y-4">
+          <div className="my-5 text-left space-y-4">
             {customCharges.map((charge, index) => (
               <div
                 key={index}
-                className="rounded-lg border border-slate-200 bg-slate-50 p-4 space-y-4"
+                className="rounded-lg border border-slate-200 bg-slate-50 p-3 space-y-2"
               >
-                {/* Header row */}
+                {/* Header*/}
                 <div className="flex items-center justify-between">
                   <h4 className="text-sm font-semibold text-slate-700">
                     Custom charge {index + 1}
@@ -213,34 +214,32 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
                 </div>
 
                 {/* Inputs */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="flex flex-col gap-3">
                   {/* Power */}
-                  <div className="flex items-center gap-3">
-                    <label className="w-28 text-sm text-slate-600">Power</label>
+                  <div className="flex flex-col items-start">
+                    <label className="text-sm text-slate-600">Power</label>
 
-                    <div className="flex items-center flex-1 rounded border border-slate-300 bg-white px-3 py-2 focus-within:ring-1 focus-within:ring-violet-500">
+                    <div className="flex items-center w-full rounded border border-slate-300 bg-white px-3 py-2 focus-within:ring-1 focus-within:ring-violet-500">
                       <input
                         type="number"
                         min={0}
                         value={charge.power}
-                        className="flex-1 border-0 p-0 text-sm focus:ring-0 outline-none"
+                        className="flex-1 min-w-0 border-0 p-0 text-sm focus:ring-0 outline-none"
                       />
                       <span className="ml-2 text-xs text-slate-500">kW</span>
                     </div>
                   </div>
 
-                  {/* Chargers */}
-                  <div className="flex items-center gap-3">
-                    <label className="w-28 text-sm text-slate-600">
-                      Chargers
-                    </label>
+                  {/* Number of Chargers */}
+                  <div className="flex flex-col items-start">
+                    <label className="text-sm text-slate-600">Amount</label>
 
-                    <div className="flex items-center flex-1 rounded border border-slate-300 bg-white px-3 py-2 focus-within:ring-1 focus-within:ring-violet-500">
+                    <div className="flex w-full items-center rounded border border-slate-300 bg-white px-3 py-2 focus-within:ring-1 focus-within:ring-violet-500">
                       <input
                         type="number"
-                        min={1}
+                        min={0}
                         value={charge.amount}
-                        className="flex-1 border-0 p-0 text-sm focus:ring-0 outline-none"
+                        className="flex-1 min-w-0  border-0 p-0 text-sm focus:ring-0 outline-none"
                       />
                     </div>
                   </div>

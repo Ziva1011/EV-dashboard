@@ -1,5 +1,5 @@
 import { useState } from "react";
-import SimulationForm from ".//SimulationForm";
+import SimulationForm from "./form/SimulationForm";
 import Modal from "../components/Modal";
 import SimulationChart from "./charts/PowerChart";
 import EnergyChart from "./charts/EnergyChart";

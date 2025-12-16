@@ -23,6 +23,9 @@ type CustomCharges = {
   amount: number;
 };
 
+type ChargingPowerMap = Record<number, number>;
+// power (kW) -> amount
+
 type Errors = Partial<Record<keyof SimulationInputs, boolean>>;
 
 const SimulationForm: React.FC<SimulationFormProps> = ({
@@ -34,9 +37,12 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
   const [onSuccess, setOnSuccess] = useState<boolean>(false);
 
   const [useCustomCharge, setUseCustomCharge] = useState<boolean>(false);
-  const [customCharges, setCustomCharge] = useState<CustomCharges[]>([
-    { power: 11, amount: inputs.numChargePoints },
+  const [chargingPower, setChargingPower] = useState<CustomCharges[]>([
+    { power: inputs.chargingPower, amount: inputs.numChargePoints },
   ]);
+  /*   const [chargingPower, setChargingPower] = useState<ChargingPowerMap>({
+    inputs.chargingPower : inputs.numChargePoints,
+  }); */
 
   const inputFields: InputField[] = [
     {
@@ -86,6 +92,11 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
     setInputs({ ...inputs, [id]: Number(value) });
   };
 
+  const handleChangePower = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    setChargingPower({ ...chargingPower, [id]: Number(value) });
+  };
+
   // Validate on blur
   const handleBlur = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -100,9 +111,37 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
     }));
   };
 
+  const calculateChargingValues = (chargingPower: CustomCharges[]) => {
+    const { totalPower, totalChargers } = chargingPower.reduce(
+      (acc, charge) => {
+        acc.totalPower += charge.power * charge.amount;
+        acc.totalChargers += charge.amount;
+        return acc;
+      },
+      { totalPower: 0, totalChargers: 0 }
+    );
+    const averagePower = totalChargers === 0 ? 0 : totalPower / totalChargers;
+    return { averagePower: averagePower, totalChargers: totalChargers };
+  };
+
   // Handle form submit
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    let nextInputs = { ...inputs };
+
+    //Assign Charging Power to Inputs object
+    if (chargingPower.length > 1) {
+      const { averagePower, totalChargers } =
+        calculateChargingValues(chargingPower);
+      if (totalChargers > inputs["numChargePoints"]) {
+        console.log("error");
+        return;
+      }
+
+      nextInputs.chargingPower = averagePower;
+    } else {
+      nextInputs.chargingPower = chargingPower[0].power;
+    }
 
     // Validate all inputs
     const newErrors: Errors = {};
@@ -114,13 +153,13 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
 
     // Prevent submit if any error
     if (Object.values(newErrors).some(Boolean)) return;
-
+    console.log(nextInputs);
     setOnSuccess(true);
     onSubmit(inputs);
   };
 
   const removeCustomCharge = (indexToRemove: number) => {
-    setCustomCharge((prev) =>
+    setChargingPower((prev) =>
       prev.filter((_, index) => index !== indexToRemove)
     );
   };
@@ -137,62 +176,112 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
     <>
       <h3 className="text-md font-semibold text-left">Simulation Parameters</h3>
       <form onSubmit={handleSubmit} className="max-w-md mx-auto" noValidate>
-        {inputFields.map((field) => {
-          const value = inputs[field.id];
-          const hasError = errors[field.id];
+        {inputFields
+          .filter((field) => !(field.id === "chargingPower"))
+          .map((field) => {
+            const value = inputs[field.id];
+            const hasError = errors[field.id];
 
-          return (
-            <div key={field.id} className="mb-3 text-left">
-              <label
-                htmlFor={field.id}
-                className="block mb-1 text-sm text-heading"
-              >
-                {field.label}
-              </label>
-              <div
-                className={`flex items-center rounded-md bg-neutral-secondary-medium border px-3 py-2.5 shadow-xs focus-within:ring-1 ${
-                  hasError
-                    ? "border-red-500 focus-within:ring-red-500"
-                    : "border-slate-400 focus-within:ring-brand"
-                }`}
-              >
-                <input
-                  type="number"
-                  id={field.id}
-                  value={value}
-                  min={field.min}
-                  max={field.max}
-                  required
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  className="flex-1 min-w-0 bg-transparent border-0 focus:ring-0 text-heading text-sm md:text-base outline-none"
-                />
-                <span className="ml-2 text-gray-500 font-medium">
-                  {field.suffix}
-                </span>
+            return (
+              <div key={field.id} className="mb-3 text-left">
+                <label
+                  htmlFor={field.id}
+                  className="block mb-1 text-sm text-heading"
+                >
+                  {field.label}
+                </label>
+                <div
+                  className={`flex items-center rounded-md bg-neutral-secondary-medium border px-3 py-2.5 shadow-xs focus-within:ring-1 ${
+                    hasError
+                      ? "border-red-500 focus-within:ring-red-500"
+                      : "border-slate-400 focus-within:ring-brand"
+                  }`}
+                >
+                  <input
+                    type="number"
+                    id={field.id}
+                    value={value}
+                    min={field.min}
+                    max={field.max}
+                    required
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className="flex-1 min-w-0 bg-transparent border-0 focus:ring-0 text-heading text-sm md:text-base outline-none"
+                  />
+                  <span className="ml-2 text-gray-500 font-medium">
+                    {field.suffix}
+                  </span>
+                </div>
+                {hasError && (
+                  <p className="mt-1 text-sm text-red-600">
+                    {field.errorMessage}
+                  </p>
+                )}
               </div>
-              {hasError && (
-                <p className="mt-1 text-sm text-red-600">
-                  {field.errorMessage}
-                </p>
-              )}
-            </div>
-          );
-        })}
-        <div>
+            );
+          })}
+        <div className="flex items-center">
           <button
             type="button"
             onClick={() => setUseCustomCharge((prev) => !prev)}
-            className="text-sm text-violet-600 underline hover:text-violet-800"
+            className="relative inline-flex h-8 w-52 items-center rounded-full bg-slate-200 p-1 transition"
+            aria-pressed={useCustomCharge}
           >
-            {useCustomCharge
-              ? "Use custom charges"
-              : "Use single charging power"}
+            {/* Sliding pill */}
+            <span
+              className={`absolute left-1 h-6 w-[calc(50%-0.25rem)] rounded-full bg-white shadow transition-transform
+        ${useCustomCharge ? "translate-x-full" : "translate-x-0"}
+      `}
+            />
+
+            {/* Labels */}
+            <span
+              className={`relative z-10 flex-1 text-center text-xs font-medium transition
+        ${!useCustomCharge ? "text-violet-600 " : "text-slate-500"}
+      `}
+            >
+              Single power
+            </span>
+            <span
+              className={`relative z-10 flex-1 text-center text-xs font-medium transition
+        ${useCustomCharge ? "text-violet-600 " : "text-slate-500"}
+      `}
+            >
+              Custom charges
+            </span>
           </button>
         </div>
-        {!useCustomCharge && (
+        {!useCustomCharge ? (
+          <div className="mb-3 text-left">
+            <label
+              htmlFor="chargingPower"
+              className="block mb-1 text-sm text-heading"
+            >
+              Charging Power
+            </label>
+            <div
+              className={`flex items-center rounded-md bg-neutral-secondary-medium border px-3 py-2.5 shadow-xs focus-within:ring-1 
+              }`}
+            >
+              <input
+                type="number"
+                id="chargingPower"
+                required
+                value={chargingPower[0].power}
+                onChange={handleChangePower}
+                className="flex-1 min-w-0 bg-transparent border-0 focus:ring-0 text-heading text-sm md:text-base outline-none"
+              />
+              <span className="ml-2 text-gray-500 font-medium">kW</span>
+            </div>
+            {/* {hasError && (
+                  <p className="mt-1 text-sm text-red-600">
+                    {field.errorMessage}
+                  </p>
+                )} */}
+          </div>
+        ) : (
           <div className="my-5 text-left space-y-4">
-            {customCharges.map((charge, index) => (
+            {chargingPower.map((charge, index) => (
               <div
                 key={index}
                 className="rounded-lg border border-slate-200 bg-slate-50 p-3 space-y-2"
@@ -252,7 +341,7 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
             <button
               type="button"
               onClick={() =>
-                setCustomCharge((prev) => [...prev, { power: 0, amount: 0 }])
+                setChargingPower((prev) => [...prev, { power: 0, amount: 0 }])
               }
             >
               + Add Charge

@@ -184,7 +184,7 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
                   className={`flex items-center rounded-md bg-neutral-secondary-medium border px-3 py-2.5 shadow-xs focus-within:ring-1 ${
                     hasError
                       ? "border-red-500 focus-within:ring-red-500"
-                      : "border-slate-400 focus-within:ring-brand"
+                      : "border-slate-400 focus-within:ring-violet-500"
                   }`}
                 >
                   <input

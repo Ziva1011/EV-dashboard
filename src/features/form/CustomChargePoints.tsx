@@ -46,7 +46,8 @@ const CustomChargePoints: React.FC<CustomChargePointsProps> = ({
       <div className="my-5 text-left space-y-4">
         {errors["amountChargers"] && (
           <p className="mt-1 text-sm text-red-600">
-            Total number of chargepoints needs to be {numChargePoints}
+            Please make sure the sum of all charge points adds up to{" "}
+            {numChargePoints}.
           </p>
         )}
         {errors["chargingPowerCustom"] && (

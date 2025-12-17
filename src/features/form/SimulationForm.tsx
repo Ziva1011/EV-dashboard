@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Button from "../../components/Button";
 import type { SimulationInputs } from "../Dashboard";
 import { useEffect } from "react";
-import ChargingPower from "./ChargingPower";
+import CustomCharges from "./CustomCharges";
 
 interface SimulationFormProps {
   onSubmit: (inputs: SimulationInputs) => void;
@@ -24,7 +24,49 @@ export type CustomCharges = {
   amount: number;
 };
 
-type Errors = Partial<Record<keyof SimulationInputs, boolean>>;
+const inputFields: InputField[] = [
+  {
+    id: "numChargePoints",
+    label: "Number of Charging Points",
+    min: 0,
+    max: 20,
+    errorMessage: "Charge points must be between 0 and 20.",
+  },
+  {
+    id: "arrivalMultiplier",
+    label: "Arrival Probability",
+    suffix: "%",
+    min: 20,
+    max: 200,
+    errorMessage: "Arrival probability must be between 20% and 200%.",
+  },
+  {
+    id: "carConsumption",
+    label: "Average Car Consumption",
+    suffix: "kWh",
+    min: 0,
+    max: 1000,
+    errorMessage: "Car consumption must be positive and 1000kWh or less",
+  },
+  {
+    id: "chargingPower",
+    label: "Charging Power per Charging Point",
+    suffix: "kW",
+    min: 0,
+    max: 2000,
+    errorMessage: "Charging power must be positive and 2000 kW or less.",
+  },
+];
+
+const errorMessages = {
+  numChargePoints: "Charge points must be between  and 20.",
+  arrivalMultiplier: "Arrival probability must be between 20% and 200%.",
+  carConsumption: "Car consumption must be positive and 1000kWh or less",
+  chargingPower: "Charging power must be positive and 2000 kW or less.",
+  amountChargers: "Number of charging points needs to be 20",
+};
+
+export type Errors = Partial<Record<keyof typeof errorMessages, boolean>>;
 
 const SimulationForm: React.FC<SimulationFormProps> = ({
   onSubmit,
@@ -36,41 +78,10 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
   const [chargingPower, setChargingPower] = useState<CustomCharges[]>([
     { power: inputs.chargingPower, amount: inputs.numChargePoints },
   ]);
-  const [errorAmount, setErrorAmount] = useState<boolean>(false);
-
-  const inputFields: InputField[] = [
-    {
-      id: "numChargePoints",
-      label: "Number of Charging Points",
-      min: 0,
-      max: 20,
-      errorMessage: "Charge points must be between 0 and 20.",
-    },
-    {
-      id: "arrivalMultiplier",
-      label: "Arrival Probability",
-      suffix: "%",
-      min: 20,
-      max: 200,
-      errorMessage: "Arrival probability must be between 20% and 200%.",
-    },
-    {
-      id: "carConsumption",
-      label: "Average Car Consumption",
-      suffix: "kWh",
-      min: 0,
-      max: 1000,
-      errorMessage: "Car consumption must be positive and 1000kWh or less",
-    },
-    {
-      id: "chargingPower",
-      label: "Charging Power per Charging Point",
-      suffix: "kW",
-      min: 0,
-      max: 2000,
-      errorMessage: "Charging power must be positive and 2000 kW or less.",
-    },
-  ];
+  const [useCustomCharge, setUseCustomCharge] = useState<boolean>(false);
+  const chargingPowerField = inputFields.find(
+    (field) => field.id === "chargingPower"
+  )!;
 
   // Validate a single value
   const validateInput = (value: number, min?: number, max?: number) => {
@@ -86,20 +97,6 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
     setInputs({ ...inputs, [id]: Number(value) });
   };
 
-  // Validate on blur
-  const handleBlur = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.target;
-    const field = inputFields.find((f) => f.id === id)!;
-    const numberValue = Number(value);
-
-    const isValid = validateInput(numberValue, field.min, field.max);
-
-    setErrors((prev) => ({
-      ...prev,
-      [id]: !isValid,
-    }));
-  };
-
   const calculateChargingValues = (chargingPower: CustomCharges[]) => {
     const { totalPower, totalChargers } = chargingPower.reduce(
       (acc, charge) => {
@@ -109,44 +106,41 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
       },
       { totalPower: 0, totalChargers: 0 }
     );
-    const averagePower = totalChargers === 0 ? 0 : totalPower / totalChargers;
+    const averagePower =
+      totalChargers === 0 ? 0 : Math.round(totalPower / totalChargers);
     return { averagePower: averagePower, totalChargers: totalChargers };
   };
 
   // Handle form submit
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    let nextInputs = { ...inputs };
-    setErrorAmount(false);
+    const nextInputs = { ...inputs };
+    const newErrors: Errors = {};
 
     //Assign Charging Power to Inputs object
     console.log(chargingPower);
-    if (chargingPower.length > 1) {
+    if (useCustomCharge) {
       const { averagePower, totalChargers } =
         calculateChargingValues(chargingPower);
-      console.log("chargers" + totalChargers);
-      if (totalChargers !== inputs["numChargePoints"]) {
-        setErrorAmount(true);
-      }
-
+      newErrors.amountChargers = totalChargers !== inputs.numChargePoints;
+      //validateChargingValues(nextInputs, totalChargers);
       nextInputs.chargingPower = averagePower;
-    } else {
-      nextInputs.chargingPower = chargingPower[0].power;
     }
-    console.log(nextInputs.chargingPower);
     // Validate all inputs
-    const newErrors: Errors = {};
+
     inputFields.forEach((field) => {
       const value = inputs[field.id];
       newErrors[field.id] = !validateInput(value, field.min, field.max);
     });
+
+    console.log("Errors" + newErrors);
     setErrors(newErrors);
 
     // Prevent submit if any error
-    if (Object.values(newErrors).some(Boolean) || errorAmount) return;
+    if (Object.values(newErrors).some(Boolean)) return;
     console.log(nextInputs);
     setOnSuccess(true);
-    onSubmit(inputs);
+    onSubmit(nextInputs);
   };
 
   useEffect(() => {
@@ -190,7 +184,6 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
                     max={field.max}
                     required
                     onChange={handleChange}
-                    onBlur={handleBlur}
                     className="flex-1 min-w-0 bg-transparent border-0 focus:ring-0 text-heading text-sm md:text-base outline-none"
                   />
                   <span className="ml-2 text-gray-500 font-medium">
@@ -205,12 +198,84 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
               </div>
             );
           })}
-        <ChargingPower
-          chargingPower={chargingPower}
-          setChargingPower={setChargingPower}
-          powerParameters={inputFields[3]}
-          errorAmount={errorAmount}
-        />
+        <div className="flex items-center">
+          <button
+            type="button"
+            onClick={() => setUseCustomCharge((prev) => !prev)}
+            className="relative inline-flex h-8 w-52 items-center rounded-full bg-slate-200 p-1 transition"
+            aria-pressed={useCustomCharge}
+          >
+            {/* Sliding pill */}
+            <span
+              className={`absolute left-1 h-6 w-[calc(50%-0.25rem)] rounded-full bg-white shadow transition-transform
+        ${useCustomCharge ? "translate-x-full" : "translate-x-0"}
+      `}
+            />
+
+            {/* Labels */}
+            <span
+              className={`relative z-10 flex-1 text-center text-xs font-medium transition
+        ${!useCustomCharge ? "text-violet-600 " : "text-slate-500"}
+      `}
+            >
+              Single power
+            </span>
+            <span
+              className={`relative z-10 flex-1 text-center text-xs font-medium transition
+        ${useCustomCharge ? "text-violet-600 " : "text-slate-500"}
+      `}
+            >
+              Custom charges
+            </span>
+          </button>
+        </div>
+
+        {!useCustomCharge ? (
+          //Single Charge
+
+          <div className="mb-3 text-left">
+            <label
+              htmlFor="chargingPower"
+              className="block mb-1 text-sm text-heading"
+            >
+              {chargingPowerField.label}
+            </label>
+            <div
+              className={`flex items-center rounded-md bg-neutral-secondary-medium border px-3 py-2.5 shadow-xs focus-within:ring-1 ${
+                errors["chargingPower"]
+                  ? "border-red-500 focus-within:ring-red-500"
+                  : "border-slate-400 focus-within:ring-brand"
+              }`}
+            >
+              <input
+                type="number"
+                id={chargingPowerField.id}
+                required
+                min={chargingPowerField.min}
+                max={chargingPowerField.max}
+                value={inputs[chargingPowerField.id]}
+                onChange={handleChange}
+                className="flex-1 min-w-0 bg-transparent border-0 focus:ring-0 text-heading text-sm md:text-base outline-none"
+              />
+              <span className="ml-2 text-gray-500 font-medium">
+                {chargingPowerField.suffix}
+              </span>
+            </div>
+            {errors["chargingPower"] && (
+              <p className="mt-1 text-sm text-red-600">
+                {chargingPowerField.errorMessage}
+              </p>
+            )}
+          </div>
+        ) : (
+          //Custom Charges
+          <CustomCharges
+            chargingPower={chargingPower}
+            setChargingPower={setChargingPower}
+            powerParameters={inputFields[3]}
+            errors={errors}
+          />
+        )}
 
         <div className="flex justify-end space-x-4 mt-5">
           <Button variant="primary" type="submit">

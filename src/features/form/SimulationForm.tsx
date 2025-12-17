@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Button from "../../components/Button";
 import type { SimulationInputs } from "../Dashboard";
 import { useEffect } from "react";
-import CustomCharges from "./CustomCharges";
+import CustomChargePoints from "./CustomChargePoints";
 
 interface SimulationFormProps {
   onSubmit: (inputs: SimulationInputs) => void;
@@ -280,7 +280,7 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
           </div>
         ) : (
           //Custom Charges
-          <CustomCharges
+          <CustomChargePoints
             chargingPower={customCharges}
             setChargingPower={setCustomCharges}
             numChargePoints={inputs["numChargePoints"]}

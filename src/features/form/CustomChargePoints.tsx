@@ -1,7 +1,7 @@
 import type { CustomCharges, InputField } from "./SimulationForm";
 import type { Errors } from "./SimulationForm";
 
-interface CustomChargesProps {
+interface CustomChargePointsProps {
   chargingPower: CustomCharges[];
   setChargingPower: React.Dispatch<React.SetStateAction<CustomCharges[]>>;
   numChargePoints?: number;
@@ -9,7 +9,7 @@ interface CustomChargesProps {
   errors: Errors;
 }
 
-const CustomCharges: React.FC<CustomChargesProps> = ({
+const CustomChargePoints: React.FC<CustomChargePointsProps> = ({
   chargingPower,
   setChargingPower,
   numChargePoints = 20,
@@ -143,4 +143,4 @@ const CustomCharges: React.FC<CustomChargesProps> = ({
   );
 };
 
-export default CustomCharges;
+export default CustomChargePoints;

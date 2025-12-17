@@ -65,7 +65,7 @@ const SideBar: React.FC = () => {
                 {!sidebarCollapsed && <span>Dashboard</span>}
               </button>
             </li>
-            <li className="hover:bg-violet-200 ">
+            {/*             <li className="hover:bg-violet-200 ">
               <button
                 type="button"
                 className={`flex w-full items-center gap-3 px-3 py-2 text-sm text-slate-700 hover:cursor-pointer
@@ -86,9 +86,9 @@ const SideBar: React.FC = () => {
                   />
                 </svg>
 
-                {!sidebarCollapsed && <span>My Charging Stations</span>}
+                {!sidebarCollapsed && <span>My Charging Stations</span>} 
               </button>
-            </li>
+            </li>*/}
           </ul>
         </nav>
       </div>

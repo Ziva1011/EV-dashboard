@@ -63,7 +63,7 @@ const errorMessages = {
   arrivalMultiplier: "Arrival probability must be between 20% and 200%.",
   carConsumption: "Car consumption must be positive and 1000kWh or less",
   chargingPower: "Charging power must be positive and 2000 kW or less.",
-  amountChargers: "Number of charging points needs to be 20",
+  amountChargers: "Total number of chargepoints needs to be 20",
   chargingPowerCustom: "Charging power must be positive and 2000 kW or less",
 };
 

@@ -46,7 +46,12 @@ const CustomCharges: React.FC<CustomChargesProps> = ({
       <div className="my-5 text-left space-y-4">
         {errors["amountChargers"] && (
           <p className="mt-1 text-sm text-red-600">
-            Number of charging points has to be {numChargePoints}
+            Number of Chargepoints has to be {numChargePoints}
+          </p>
+        )}
+        {errors["chargingPowerCustom"] && (
+          <p className="mt-1 text-sm text-red-600">
+            Charging power must be positive and less than 2000 kW
           </p>
         )}
         {chargingPower.map((charge, index) => (
@@ -57,13 +62,13 @@ const CustomCharges: React.FC<CustomChargesProps> = ({
             {/* Header*/}
             <div className="flex items-center justify-between">
               <h4 className="text-sm font-semibold text-slate-700">
-                Custom charge {index + 1}
+                Chargepoint {index + 1}
               </h4>
 
               <button
                 type="button"
                 onClick={() => removeCustomCharge(index)}
-                className="text-slate-400 hover:text-red-600 transition"
+                className="text-slate-400 hover:text-red-600 hover:cursor-pointer transition"
                 aria-label={`Remove custom charge ${index + 1}`}
               >
                 ✕
@@ -78,7 +83,7 @@ const CustomCharges: React.FC<CustomChargesProps> = ({
 
                 <div
                   className={`flex w-full items-center rounded border  bg-white px-3 py-2 focus-within:ring-1 ${
-                    errors["chargingPower"]
+                    errors["chargingPowerCustom"]
                       ? "border-red-500 focus-within:ring-red-500"
                       : "border-slate-300 focus-within:ring-violet-500"
                   }`}
@@ -126,6 +131,7 @@ const CustomCharges: React.FC<CustomChargesProps> = ({
         ))}
         <button
           type="button"
+          className=" hover:cursor-pointer rounded hover:text-violet-600"
           onClick={() =>
             setChargingPower((prev) => [...prev, { power: 0, amount: 0 }])
           }

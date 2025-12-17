@@ -46,15 +46,15 @@ const inputFields: InputField[] = [
     suffix: "kWh",
     min: 0,
     max: 1000,
-    errorMessage: "Car consumption must be positive and 1000kWh or less",
+    errorMessage: "Car consumption must be positive and less than 1000kWh",
   },
   {
     id: "chargingPower",
-    label: "Charging Power per Charging Point",
+    label: "Charging Power per Chargepoint",
     suffix: "kW",
     min: 0,
     max: 2000,
-    errorMessage: "Charging power must be positive and 2000 kW or less.",
+    errorMessage: "Charging power must be positive and less than 2000 kW",
   },
 ];
 
@@ -64,6 +64,7 @@ const errorMessages = {
   carConsumption: "Car consumption must be positive and 1000kWh or less",
   chargingPower: "Charging power must be positive and 2000 kW or less.",
   amountChargers: "Number of charging points needs to be 20",
+  chargingPowerCustom: "Charging power must be positive and 2000 kW or less",
 };
 
 export type Errors = Partial<Record<keyof typeof errorMessages, boolean>>;
@@ -75,7 +76,7 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
   const [inputs, setInputs] = useState<SimulationInputs>(simulationInputs);
   const [errors, setErrors] = useState<Errors>({});
   const [onSuccess, setOnSuccess] = useState<boolean>(false);
-  const [chargingPower, setChargingPower] = useState<CustomCharges[]>([
+  const [customCharges, setCustomCharges] = useState<CustomCharges[]>([
     { power: inputs.chargingPower, amount: inputs.numChargePoints },
   ]);
   const [useCustomCharge, setUseCustomCharge] = useState<boolean>(false);
@@ -118,10 +119,20 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
     const newErrors: Errors = {};
 
     //Assign Charging Power to Inputs object
-    console.log(chargingPower);
+    console.log(customCharges);
     if (useCustomCharge) {
       const { averagePower, totalChargers } =
-        calculateChargingValues(chargingPower);
+        calculateChargingValues(customCharges);
+      customCharges.some((charge) => {
+        if (
+          charge.power < chargingPowerField.min ||
+          charge.power > chargingPowerField.max
+        ) {
+          newErrors.chargingPowerCustom = true;
+          return;
+        }
+      });
+
       newErrors.amountChargers = totalChargers !== inputs.numChargePoints;
       //validateChargingValues(nextInputs, totalChargers);
       nextInputs.chargingPower = averagePower;
@@ -233,7 +244,7 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
         {!useCustomCharge ? (
           //Single Charge
 
-          <div className="mb-3 text-left">
+          <div className="my-3 text-left">
             <label
               htmlFor="chargingPower"
               className="block mb-1 text-sm text-heading"
@@ -270,8 +281,9 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
         ) : (
           //Custom Charges
           <CustomCharges
-            chargingPower={chargingPower}
-            setChargingPower={setChargingPower}
+            chargingPower={customCharges}
+            setChargingPower={setCustomCharges}
+            numChargePoints={inputs["numChargePoints"]}
             powerParameters={inputFields[3]}
             errors={errors}
           />

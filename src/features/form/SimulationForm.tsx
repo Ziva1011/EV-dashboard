@@ -76,10 +76,10 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
   const [inputs, setInputs] = useState<SimulationInputs>(simulationInputs);
   const [errors, setErrors] = useState<Errors>({});
   const [onSuccess, setOnSuccess] = useState<boolean>(false);
+  const [useCustomCharge, setUseCustomCharge] = useState<boolean>(false);
   const [customCharges, setCustomCharges] = useState<CustomCharges[]>([
     { power: inputs.chargingPower, amount: inputs.numChargePoints },
   ]);
-  const [useCustomCharge, setUseCustomCharge] = useState<boolean>(false);
   const chargingPowerField = inputFields.find(
     (field) => field.id === "chargingPower"
   )!;
@@ -118,8 +118,7 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
     const nextInputs = { ...inputs };
     const newErrors: Errors = {};
 
-    //Assign Charging Power to Inputs object
-    console.log(customCharges);
+    // Validate custom chargepoints
     if (useCustomCharge) {
       const { averagePower, totalChargers } =
         calculateChargingValues(customCharges);
@@ -134,22 +133,19 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
       });
 
       newErrors.amountChargers = totalChargers !== inputs.numChargePoints;
-      //validateChargingValues(nextInputs, totalChargers);
       nextInputs.chargingPower = averagePower;
     }
-    // Validate all inputs
 
+    // Validate inputs
     inputFields.forEach((field) => {
       const value = inputs[field.id];
       newErrors[field.id] = !validateInput(value, field.min, field.max);
     });
 
-    console.log("Errors" + newErrors);
     setErrors(newErrors);
 
     // Prevent submit if any error
     if (Object.values(newErrors).some(Boolean)) return;
-    console.log(nextInputs);
     setOnSuccess(true);
     onSubmit(nextInputs);
   };
@@ -279,7 +275,7 @@ const SimulationForm: React.FC<SimulationFormProps> = ({
             )}
           </div>
         ) : (
-          //Custom Charges
+          //Custom Charges Inputs
           <CustomChargePoints
             chargingPower={customCharges}
             setChargingPower={setCustomCharges}
